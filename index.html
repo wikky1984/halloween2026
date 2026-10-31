@@ -7,13 +7,13 @@
 <meta name="description" content="A family-friendly Halloween challenge. No candy. Just a curse.">
 <title>THE CURSED GARAGE</title>
 <link rel="icon" href="icon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="style.css?v=3">
-<script src="game.js?v=2" defer></script>
+<link rel="stylesheet" href="style.css?v=4">
+<script src="game.js?v=3" defer></script>
 </head>
 <body>
 <div class="world" aria-hidden="true"><div class="moon"></div><div class="garage"></div><div class="mist mist-one"></div><div class="mist mist-two"></div></div>
 <div class="app-shell">
-<header class="topbar"><span class="topbar-mark">✦ THE CURSED GARAGE ✦</span><button id="sound-toggle" class="sound-toggle" type="button" aria-pressed="false" aria-label="Turn sound on"><span aria-hidden="true">◖</span><span id="sound-label">SOUND OFF</span></button></header>
+<header class="topbar"><span class="topbar-mark">✦ THE CURSED GARAGE ✦</span><button id="sound-toggle" class="sound-toggle" type="button" aria-pressed="true" aria-label="Turn sound off"><span aria-hidden="true">◖</span><span id="sound-label">SOUND ON</span></button></header>
 <main id="game" class="game" tabindex="-1">
 <section id="intro" class="screen intro-screen" aria-labelledby="intro-title">
 <div class="crest" aria-hidden="true"><span>✦</span><span>◉</span></div>
@@ -44,13 +44,13 @@
 <section id="seal" class="screen seal-screen" aria-labelledby="seal-title" hidden>
 <p class="step">03 / 03 <span>BREAK THE CURSE</span></p>
 <h2 id="seal-title">The seal is glowing.<br><em>Break it before it opens.</em></h2>
-<p class="screen-copy">Tap the seal three times.</p>
-<button id="seal-button" class="seal-button" type="button" aria-label="Tap the glowing seal. Three taps remaining"><span class="seal-ring seal-ring-outer"></span><span class="seal-ring seal-ring-inner"></span><span class="seal-symbol" aria-hidden="true">✳</span></button>
+<p class="screen-copy">Tap only when the seal glows green. Land three hits.</p>
+<button id="seal-button" class="seal-button" type="button" aria-label="Wait for the green glow. Three hits remaining"><span class="seal-ring seal-ring-outer"></span><span class="seal-ring seal-ring-inner"></span><span class="seal-symbol" aria-hidden="true">✳</span></button>
 <div id="seal-progress" class="seal-progress" aria-label="Zero of three taps completed"><span></span><span></span><span></span></div>
-<p id="seal-status" class="seal-status" aria-live="polite">3 taps to escape</p>
+<p id="seal-status" class="seal-status" aria-live="polite">WAIT FOR THE GREEN GLOW</p>
 </section>
-<section id="scare" class="screen scare-screen" aria-label="A friendly ghost appears" hidden>
-<div class="ghost-wrap" aria-hidden="true"><img class="ghost" src="ghost.svg" width="280" height="310" alt=""></div>
+<section id="scare" class="screen scare-screen" aria-label="A ghost rushes toward you" hidden>
+<div class="ghost-wrap" aria-hidden="true"><img class="ghost" src="ghost.svg?v=2" width="280" height="310" alt=""></div>
 <h2>BOO!</h2>
 </section>
 <section id="result" class="screen result-screen" aria-labelledby="result-title" hidden>

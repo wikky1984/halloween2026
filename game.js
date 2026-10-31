@@ -17,18 +17,27 @@
   let current = "intro";
   let taps = 0;
   let locked = false;
-  let soundOn = false;
+  let sealReady = false;
+  let soundOn = true;
   let audio = null;
+  let ambient = null;
+  let heartbeatTimer = null;
   let timers = [];
 
   function later(fn, ms) {
-    const id = window.setTimeout(fn, ms);
+    const id = window.setTimeout(() => {
+      timers = timers.filter(item => item !== id);
+      fn();
+    }, ms);
     timers.push(id);
     return id;
   }
   function clearTimers() {
     timers.forEach(window.clearTimeout);
     timers = [];
+  }
+  function audioState() {
+    soundButton.dataset.audioState = soundOn ? (audio ? audio.state : "armed") : "off";
   }
   function show(id) {
     current = id;
@@ -37,7 +46,10 @@
       screen.hidden = !visible;
       screen.classList.toggle("active", visible);
     });
+    document.body.classList.toggle("curse-awake", ["reveal", "seal"].includes(id));
+    document.body.classList.toggle("scare-mode", id === "scare");
     game.scrollTop = 0;
+    window.scrollTo(0, 0);
     const focusTarget = document.querySelector("#" + id + " h1, #" + id + " h2");
     if (focusTarget && id !== "scare") {
       focusTarget.setAttribute("tabindex", "-1");
@@ -47,10 +59,17 @@
   function audioContext() {
     if (!soundOn) return null;
     try {
-      if (!audio) audio = new (window.AudioContext || window.webkitAudioContext)();
-      if (audio.state === "suspended") audio.resume().catch(() => {});
+      if (!audio) {
+        audio = new (window.AudioContext || window.webkitAudioContext)();
+        audio.onstatechange = audioState;
+      }
+      if (audio.state === "suspended") audio.resume().then(audioState).catch(audioState);
+      audioState();
       return audio;
-    } catch { return null; }
+    } catch {
+      soundButton.dataset.audioState = "unavailable";
+      return null;
+    }
   }
   function tone(freq, duration, shape = "sine", volume = 0.035, endFreq = null, delay = 0) {
     const ctx = audioContext();
@@ -62,43 +81,100 @@
     osc.frequency.setValueAtTime(freq, start);
     if (endFreq) osc.frequency.exponentialRampToValueAtTime(Math.max(20, endFreq), start + duration);
     gain.gain.setValueAtTime(0.0001, start);
-    gain.gain.exponentialRampToValueAtTime(volume, start + Math.min(0.03, duration / 4));
+    gain.gain.exponentialRampToValueAtTime(volume, start + Math.min(0.035, duration / 4));
     gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
     osc.connect(gain).connect(ctx.destination);
     osc.start(start);
     osc.stop(start + duration + 0.02);
   }
+  function noiseBurst(duration, volume) {
+    const ctx = audioContext();
+    if (!ctx) return;
+    const length = Math.floor(ctx.sampleRate * duration);
+    const buffer = ctx.createBuffer(1, length, ctx.sampleRate);
+    const samples = buffer.getChannelData(0);
+    for (let i = 0; i < length; i++) samples[i] = Math.random() * 2 - 1;
+    const source = ctx.createBufferSource();
+    const filter = ctx.createBiquadFilter();
+    const gain = ctx.createGain();
+    source.buffer = buffer;
+    filter.type = "bandpass";
+    filter.frequency.value = 900;
+    filter.Q.value = 0.6;
+    gain.gain.setValueAtTime(0.0001, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(volume, ctx.currentTime + 0.04);
+    gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + duration);
+    source.connect(filter).connect(gain).connect(ctx.destination);
+    source.start();
+    source.stop(ctx.currentTime + duration);
+  }
   function sound(kind) {
-    if (kind === "enter") { tone(220, .6, "sine", .025, 110); tone(440, .7, "sine", .014, 180, .1); }
-    if (kind === "coffin") { tone(78, .27, "sine", .06, 58); tone(74, .28, "sine", .05, 55, .42); }
-    if (kind === "pumpkin") { tone(330, .55, "triangle", .022, 510); tone(440, .5, "sine", .018, 250, .38); }
-    if (kind === "door") { [0, .36, .72].forEach(t => tone(110, .13, "triangle", .06, 47, t)); }
-    if (kind === "tap") { tone(420 + taps * 95, .22, "sine", .035, 760 + taps * 90); }
-    if (kind === "scare") { tone(270, .58, "sawtooth", .055, 125); tone(540, .47, "sine", .04, 280, .04); }
-    if (kind === "win") { [440, 554, 659].forEach((f, i) => tone(f, .5, "sine", .026, f * 1.2, i * .12)); }
+    if (kind === "enter") { tone(260, .85, "sine", .035, 95); tone(390, .7, "triangle", .018, 175, .13); }
+    if (kind === "heart") { tone(150, .18, "triangle", .035, 85); tone(135, .22, "triangle", .030, 75, .24); }
+    if (kind === "coffin") { sound("heart"); tone(210, .9, "sine", .02, 95, .5); }
+    if (kind === "pumpkin") { tone(380, .55, "triangle", .025, 540); tone(480, .6, "sine", .018, 220, .35); }
+    if (kind === "door") { [0, .38, .79].forEach(t => tone(160, .18, "triangle", .055, 65, t)); }
+    if (kind === "glow") { tone(510, .28, "sine", .012, 630); }
+    if (kind === "miss") { tone(170, .22, "triangle", .025, 90); }
+    if (kind === "tap") { tone(430 + taps * 95, .26, "sine", .043, 770 + taps * 90); }
+    if (kind === "scare") { tone(460, .65, "sawtooth", .06, 125); tone(880, .40, "triangle", .025, 310, .05); noiseBurst(.45, .032); }
+    if (kind === "win") { [440, 554, 659].forEach((f, i) => tone(f, .5, "sine", .024, f * 1.2, i * .12)); }
+  }
+  function startAmbience() {
+    if (!soundOn || ambient || !["choice", "reveal", "seal"].includes(current)) return;
+    const ctx = audioContext();
+    if (!ctx) return;
+    const hum = ctx.createOscillator();
+    const gain = ctx.createGain();
+    hum.type = "triangle";
+    hum.frequency.value = 172;
+    gain.gain.value = 0.005;
+    hum.connect(gain).connect(ctx.destination);
+    hum.start();
+    ambient = { hum, gain };
+    heartbeatTimer = window.setInterval(() => {
+      if (!document.hidden && soundOn && ["choice", "reveal", "seal"].includes(current)) sound("heart");
+    }, 1700);
+  }
+  function stopAmbience() {
+    if (heartbeatTimer) window.clearInterval(heartbeatTimer);
+    heartbeatTimer = null;
+    if (!ambient || !audio) return;
+    const { hum, gain } = ambient;
+    ambient = null;
+    const now = audio.currentTime;
+    gain.gain.setTargetAtTime(0.0001, now, .08);
+    try { hum.stop(now + .4); } catch {}
   }
   function updateSound() {
     soundButton.setAttribute("aria-pressed", String(soundOn));
     soundButton.setAttribute("aria-label", soundOn ? "Turn sound off" : "Turn sound on");
     soundLabel.textContent = soundOn ? "SOUND ON" : "SOUND OFF";
+    audioState();
   }
   soundButton.addEventListener("click", () => {
     soundOn = !soundOn;
     updateSound();
-    if (soundOn) { audioContext(); tone(523, .16, "sine", .02); }
-    else if (audio && audio.state === "running") audio.suspend().catch(() => {});
+    if (soundOn) {
+      audioContext();
+      tone(523, .18, "sine", .025);
+      startAmbience();
+    } else {
+      stopAmbience();
+      if (audio && audio.state === "running") audio.suspend().then(audioState).catch(audioState);
+    }
   });
   document.getElementById("enter-button").addEventListener("click", () => {
     if (current !== "intro") return;
     audioContext();
     sound("enter");
     show("choice");
+    startAmbience();
   });
   document.querySelectorAll(".choice-card").forEach(button => {
     button.addEventListener("click", () => {
       if (current !== "choice") return;
-      const choice = button.dataset.choice;
-      const scene = scenes[choice];
+      const scene = scenes[button.dataset.choice];
       if (!scene) return;
       clearTimers();
       const art = document.getElementById("reveal-art");
@@ -109,57 +185,104 @@
       document.getElementById("reveal-title").textContent = scene.title;
       document.getElementById("reveal-copy").textContent = scene.copy;
       show("reveal");
-      sound(choice);
-      later(() => {
-        if (current === "reveal") show("seal");
-      }, reducedMotion.matches ? 1600 : 4300);
+      sound(button.dataset.choice);
+      later(() => { if (current === "reveal") beginSeal(); }, reducedMotion.matches ? 2200 : 4800);
     });
   });
+  function setSealReady(value) {
+    sealReady = value;
+    sealButton.classList.toggle("ready", value);
+    sealButton.setAttribute("aria-label", value ? "Tap now! " + (3 - taps) + " hits remaining" : "Wait for the green glow. " + (3 - taps) + " hits remaining");
+  }
+  function startSealCycle(delay = 750) {
+    if (current !== "seal" || locked) return;
+    if (reducedMotion.matches) {
+      setSealReady(true);
+      sealStatus.textContent = (3 - taps) + " taps to escape";
+      return;
+    }
+    setSealReady(false);
+    sealStatus.textContent = "WAIT FOR THE GREEN GLOW";
+    later(() => {
+      if (current !== "seal" || locked) return;
+      setSealReady(true);
+      sealStatus.textContent = "NOW! TAP THE SEAL";
+      sound("glow");
+      later(() => {
+        if (current !== "seal" || locked || !sealReady) return;
+        setSealReady(false);
+        startSealCycle(650);
+      }, 1150);
+    }, delay);
+  }
+  function beginSeal() {
+    show("seal");
+    startSealCycle();
+  }
   function resetSeal() {
     taps = 0;
     locked = false;
     sealButton.disabled = false;
-    sealButton.setAttribute("aria-label", "Tap the glowing seal. Three taps remaining");
-    sealStatus.textContent = "3 taps to escape";
+    sealButton.classList.remove("ready", "hit", "miss");
+    sealReady = false;
+    sealButton.setAttribute("aria-label", "Wait for the green glow. Three hits remaining");
+    sealStatus.textContent = "WAIT FOR THE GREEN GLOW";
     sealProgress.setAttribute("aria-label", "Zero of three taps completed");
     [...sealProgress.children].forEach(dot => dot.classList.remove("done"));
   }
   sealButton.addEventListener("click", () => {
     if (current !== "seal" || locked) return;
+    if (!sealReady) {
+      sound("miss");
+      sealStatus.textContent = "TOO SOON — WAIT FOR GREEN";
+      sealButton.classList.add("miss");
+      later(() => sealButton.classList.remove("miss"), 220);
+      return;
+    }
+    clearTimers();
+    setSealReady(false);
     taps += 1;
     sound("tap");
     sealProgress.children[taps - 1].classList.add("done");
     sealProgress.setAttribute("aria-label", taps + " of three taps completed");
-    sealButton.setAttribute("aria-label", "Tap the glowing seal. " + (3 - taps) + " taps remaining");
-    sealStatus.textContent = taps < 3 ? (3 - taps) + " taps to escape" : "THE SEAL IS BROKEN";
     sealButton.classList.add("hit");
     later(() => sealButton.classList.remove("hit"), 180);
-    if (taps === 3) {
-      locked = true;
-      sealButton.disabled = true;
-      later(() => {
-        if (current !== "seal") return;
-        show("scare");
-        sound("scare");
-        later(() => {
-          if (current !== "scare") return;
-          let n;
-          try { const values = new Uint32Array(1); crypto.getRandomValues(values); n = values[0] % titles.length; }
-          catch { n = Math.floor(Math.random() * titles.length); }
-          document.getElementById("result-name").textContent = titles[n];
-          show("result");
-          sound("win");
-        }, reducedMotion.matches ? 700 : 1900);
-      }, reducedMotion.matches ? 250 : 600);
+    if (taps < 3) {
+      sealStatus.textContent = (3 - taps) + " HITS LEFT";
+      if (reducedMotion.matches) setSealReady(true);
+      else later(() => startSealCycle(750), 350);
+      return;
     }
+    locked = true;
+    sealButton.disabled = true;
+    sealStatus.textContent = "THE SEAL IS BROKEN";
+    stopAmbience();
+    later(() => {
+      if (current !== "seal") return;
+      show("scare");
+      sound("scare");
+      later(() => {
+        if (current !== "scare") return;
+        let n;
+        try { const values = new Uint32Array(1); crypto.getRandomValues(values); n = values[0] % titles.length; }
+        catch { n = Math.floor(Math.random() * titles.length); }
+        document.getElementById("result-name").textContent = titles[n];
+        show("result");
+        sound("win");
+      }, reducedMotion.matches ? 800 : 2000);
+    }, reducedMotion.matches ? 350 : 950);
   });
   document.getElementById("replay-button").addEventListener("click", () => {
     clearTimers();
+    stopAmbience();
     resetSeal();
     show("intro");
+  });
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) stopAmbience();
+    else if (soundOn) startAmbience();
   });
   updateSound();
   resetSeal();
   show("intro");
 })();
-

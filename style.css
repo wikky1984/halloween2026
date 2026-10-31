@@ -31,3 +31,21 @@ h1,h2,p{margin-top:0}h1,h2{font-family:Georgia,'Times New Roman',serif;font-weig
 .ghost{display:block;width:100%;height:auto}
 @media(max-width:360px){.choice-art{width:54px;height:60px}}
 @media(max-height:680px){.reveal-art img{width:130px;height:130px}}
+/* A quiet buildup and a clear, slow timing cue; no flashing effects. */
+.world:before{content:"";position:absolute;inset:0;background:#07040c;opacity:0;transition:opacity 1s ease;z-index:1}
+body.curse-awake .world:before{opacity:.33}
+body.scare-mode .world:before{opacity:.78}
+.seal-button{--seal-col:#826499;color:var(--seal-col);filter:drop-shadow(0 0 10px #82649955);transition:color .35s ease,filter .35s ease}
+.seal-button.ready{--seal-col:#c2ff75;filter:drop-shadow(0 0 28px #b6ff6da8)}
+.seal-ring{border-color:var(--seal-col);box-shadow:0 0 14px var(--seal-col),inset 0 0 12px var(--seal-col);animation:none;transition:border-color .35s ease,box-shadow .35s ease}
+.seal-ring-outer:before,.seal-ring-outer:after{background:var(--seal-col);box-shadow:0 0 12px var(--seal-col);transition:background .35s ease}
+.seal-symbol{text-shadow:0 0 16px var(--seal-col);transition:text-shadow .35s ease,transform .18s ease}
+.seal-button.miss{filter:drop-shadow(0 0 15px #ff9a4866)}
+.seal-button.miss .seal-symbol{transform:scale(.9)}
+.seal-button.hit .seal-symbol{transform:scale(1.15)}
+.scare-screen{position:relative;min-height:480px}
+.scare-screen:before{content:"";position:absolute;width:min(110vw,520px);height:min(110vw,520px);border-radius:50%;background:radial-gradient(circle,#a7ff6652 0,#4aa98119 35%,transparent 70%);z-index:-1}
+.ghost-wrap{width:min(84vw,370px);filter:drop-shadow(0 0 31px #9cff8da6);animation:ghost-lunge .7s cubic-bezier(.14,.89,.25,1) both}
+.scare-screen h2{font-size:clamp(60px,18vw,110px);margin:-8px 0 0;animation:ghost-lunge .7s .07s both}
+@keyframes ghost-lunge{0%{opacity:0;transform:scale(.42) translateY(80px)}55%{opacity:1}100%{opacity:1;transform:scale(1) translateY(0)}}
+@media(max-height:680px){.scare-screen{min-height:0}.ghost-wrap{width:min(70vw,270px)}}
