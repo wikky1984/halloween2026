@@ -4,6 +4,7 @@
   const game = document.getElementById("game");
   const soundButton = document.getElementById("sound-toggle");
   const soundLabel = document.getElementById("sound-label");
+  const music = document.getElementById("bgm");
   const sealButton = document.getElementById("seal-button");
   const sealStatus = document.getElementById("seal-status");
   const sealProgress = document.getElementById("seal-progress");
@@ -23,6 +24,14 @@
   let ambient = null;
   let heartbeatTimer = null;
   let timers = [];
+  music.volume = 0.72;
+  soundButton.dataset.musicState = "armed";
+  music.addEventListener("playing", () => {
+    soundButton.dataset.musicState = music.paused ? "paused" : "playing";
+  });
+  music.addEventListener("error", () => {
+    soundButton.dataset.musicState = "error";
+  });
 
   function later(fn, ms) {
     const id = window.setTimeout(() => {
@@ -120,8 +129,29 @@
     if (kind === "scare") { tone(680, .65, "sawtooth", .06, 220); tone(980, .40, "triangle", .025, 390, .05); noiseBurst(.45, .032); }
     if (kind === "win") { [440, 554, 659].forEach((f, i) => tone(f, .5, "sine", .024, f * 1.2, i * .12)); }
   }
+  function startMusic() {
+    if (!soundOn || !["choice", "reveal", "seal"].includes(current) || !music.paused) return;
+    soundButton.dataset.musicState = "starting";
+    const started = music.play();
+    if (started && typeof started.catch === "function") {
+      started.then(() => {
+        soundButton.dataset.musicState = music.paused ? "paused" : "playing";
+      }).catch(() => {
+        if (soundOn && ["choice", "reveal", "seal"].includes(current)) soundButton.dataset.musicState = "blocked";
+      });
+    }
+  }
+  function stopMusic(reset = false) {
+    music.pause();
+    if (reset) {
+      try { music.currentTime = 0; } catch {}
+    }
+    soundButton.dataset.musicState = soundOn ? "paused" : "off";
+  }
   function startAmbience() {
-    if (!soundOn || ambient || !["choice", "reveal", "seal"].includes(current)) return;
+    if (!soundOn || !["choice", "reveal", "seal"].includes(current)) return;
+    startMusic();
+    if (ambient) return;
     const ctx = audioContext();
     if (!ctx) return;
     const hum = ctx.createOscillator();
@@ -137,6 +167,7 @@
     }, 1700);
   }
   function stopAmbience() {
+    stopMusic();
     if (heartbeatTimer) window.clearInterval(heartbeatTimer);
     heartbeatTimer = null;
     if (!ambient || !audio) return;
@@ -278,6 +309,7 @@
   document.getElementById("replay-button").addEventListener("click", () => {
     clearTimers();
     stopAmbience();
+    stopMusic(true);
     resetSeal();
     show("intro");
   });

@@ -49,3 +49,4 @@ body.scare-mode .world:before{opacity:.78}
 .scare-screen h2{font-size:clamp(60px,18vw,110px);margin:-8px 0 0;animation:ghost-lunge .7s .07s both}
 @keyframes ghost-lunge{0%{opacity:0;transform:scale(.42) translateY(80px)}55%{opacity:1}100%{opacity:1;transform:scale(1) translateY(0)}}
 @media(max-height:680px){.scare-screen{min-height:0}.ghost-wrap{width:min(70vw,270px)}}
+.sound-help{display:inline-block;margin-top:5px;color:#e8d6e4;font-size:9px;letter-spacing:.13em}

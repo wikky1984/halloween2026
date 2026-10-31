@@ -7,10 +7,11 @@
 <meta name="description" content="A family-friendly Halloween challenge. No candy. Just a curse.">
 <title>THE CURSED GARAGE</title>
 <link rel="icon" href="icon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="style.css?v=4">
-<script src="game.js?v=4" defer></script>
+<link rel="stylesheet" href="style.css?v=5">
+<script src="game.js?v=5" defer></script>
 </head>
 <body>
+<audio id="bgm" src="haunted-garage.wav" preload="auto" loop playsinline hidden></audio>
 <div class="world" aria-hidden="true"><div class="moon"></div><div class="garage"></div><div class="mist mist-one"></div><div class="mist mist-two"></div></div>
 <div class="app-shell">
 <header class="topbar"><span class="topbar-mark">✦ THE CURSED GARAGE ✦</span><button id="sound-toggle" class="sound-toggle" type="button" aria-pressed="true" aria-label="Turn sound off"><span aria-hidden="true">◖</span><span id="sound-label">SOUND ON</span></button></header>
@@ -22,7 +23,7 @@
 <p class="tagline">NO CANDY. JUST A CURSE.</p>
 <p class="intro-copy">Something behind the garage door has been waiting for you.</p>
 <button id="enter-button" class="primary-button" type="button">ENTER IF YOU DARE <span aria-hidden="true">→</span></button>
-<p class="small-note">FAMILY-FRIENDLY <span aria-hidden="true">•</span> SOUND OPTIONAL</p>
+<p class="small-note">FAMILY-FRIENDLY <span aria-hidden="true">•</span> SOUND OPTIONAL<br><span class="sound-help">MUSIC STARTS AFTER ENTER</span></p>
 </section>
 <section id="choice" class="screen choice-screen" aria-labelledby="choice-title" hidden>
 <p class="step">01 / 03 <span>THE CHOICE</span></p>
