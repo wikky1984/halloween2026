@@ -54,7 +54,7 @@ body.scare-mode .world:before{opacity:.78}
 .rhythm-screen .screen-copy{max-width:330px;margin-bottom:14px}
 .rhythm-track{position:relative;width:min(100%,320px);height:270px;overflow:hidden;border:1px solid #9376a16b;border-radius:18px;background:linear-gradient(180deg,#24172fbb,#110b1bcf 70%,#281a34e6);box-shadow:inset 0 0 35px #0008,0 14px 40px #0005}
 .rhythm-guide{position:absolute;top:12px;bottom:12px;left:50%;width:2px;transform:translateX(-50%);background:linear-gradient(180deg,#9973aa22,#b292c655 65%,#b9ff8c55);box-shadow:0 0 12px #b98ecc55}
-.falling-note{--note-y:0px;position:absolute;z-index:2;top:18px;left:50%;width:58px;height:58px;display:grid;place-items:center;transform:translate(-50%,var(--note-y));filter:drop-shadow(0 0 15px #d5b0e8a8);will-change:transform}
+.falling-note{--note-y:0px;position:absolute;z-index:2;top:18px;left:50%;width:58px;height:58px;display:grid;place-items:center;transform:translate(-50%,var(--note-y));filter:drop-shadow(0 0 15px #d5b0e8a8);will-change:transform;pointer-events:none}
 .falling-note[hidden]{display:none}
 .falling-note img{width:58px;height:58px;object-fit:contain}
 .hit-pad{position:absolute;z-index:1;left:50%;bottom:10px;transform:translateX(-50%);width:96px;height:96px;border:3px solid #936ba9;border-radius:50%;background:radial-gradient(circle,#352347,#1b1129 70%);color:#e9cfef;box-shadow:0 0 0 9px #ac75bd16,0 0 22px #986ca45c;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;touch-action:manipulation;transition:border-color .28s,color .28s,box-shadow .28s}
