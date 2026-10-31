@@ -81,7 +81,7 @@
     osc.frequency.setValueAtTime(freq, start);
     if (endFreq) osc.frequency.exponentialRampToValueAtTime(Math.max(20, endFreq), start + duration);
     gain.gain.setValueAtTime(0.0001, start);
-    gain.gain.exponentialRampToValueAtTime(volume, start + Math.min(0.035, duration / 4));
+    gain.gain.exponentialRampToValueAtTime(Math.min(volume * 2.3, 0.14), start + Math.min(0.035, duration / 4));
     gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
     osc.connect(gain).connect(ctx.destination);
     osc.start(start);
@@ -102,22 +102,22 @@
     filter.frequency.value = 900;
     filter.Q.value = 0.6;
     gain.gain.setValueAtTime(0.0001, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(volume, ctx.currentTime + 0.04);
+    gain.gain.exponentialRampToValueAtTime(Math.min(volume * 1.8, 0.08), ctx.currentTime + 0.04);
     gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + duration);
     source.connect(filter).connect(gain).connect(ctx.destination);
     source.start();
     source.stop(ctx.currentTime + duration);
   }
   function sound(kind) {
-    if (kind === "enter") { tone(260, .85, "sine", .035, 95); tone(390, .7, "triangle", .018, 175, .13); }
-    if (kind === "heart") { tone(150, .18, "triangle", .035, 85); tone(135, .22, "triangle", .030, 75, .24); }
-    if (kind === "coffin") { sound("heart"); tone(210, .9, "sine", .02, 95, .5); }
+    if (kind === "enter") { tone(480, .85, "sine", .045, 210); tone(620, .7, "triangle", .025, 300, .13); }
+    if (kind === "heart") { tone(250, .18, "triangle", .035, 175); tone(230, .22, "triangle", .030, 150, .24); }
+    if (kind === "coffin") { sound("heart"); tone(310, .9, "sine", .025, 180, .5); }
     if (kind === "pumpkin") { tone(380, .55, "triangle", .025, 540); tone(480, .6, "sine", .018, 220, .35); }
-    if (kind === "door") { [0, .38, .79].forEach(t => tone(160, .18, "triangle", .055, 65, t)); }
+    if (kind === "door") { [0, .38, .79].forEach(t => tone(285, .18, "triangle", .055, 155, t)); }
     if (kind === "glow") { tone(510, .28, "sine", .012, 630); }
     if (kind === "miss") { tone(170, .22, "triangle", .025, 90); }
     if (kind === "tap") { tone(430 + taps * 95, .26, "sine", .043, 770 + taps * 90); }
-    if (kind === "scare") { tone(460, .65, "sawtooth", .06, 125); tone(880, .40, "triangle", .025, 310, .05); noiseBurst(.45, .032); }
+    if (kind === "scare") { tone(680, .65, "sawtooth", .06, 220); tone(980, .40, "triangle", .025, 390, .05); noiseBurst(.45, .032); }
     if (kind === "win") { [440, 554, 659].forEach((f, i) => tone(f, .5, "sine", .024, f * 1.2, i * .12)); }
   }
   function startAmbience() {
@@ -127,8 +127,8 @@
     const hum = ctx.createOscillator();
     const gain = ctx.createGain();
     hum.type = "triangle";
-    hum.frequency.value = 172;
-    gain.gain.value = 0.005;
+    hum.frequency.value = 245;
+    gain.gain.value = 0.012;
     hum.connect(gain).connect(ctx.destination);
     hum.start();
     ambient = { hum, gain };
@@ -192,7 +192,9 @@
   function setSealReady(value) {
     sealReady = value;
     sealButton.classList.toggle("ready", value);
-    sealButton.setAttribute("aria-label", value ? "Tap now! " + (3 - taps) + " hits remaining" : "Wait for the green glow. " + (3 - taps) + " hits remaining");
+    const remaining = 3 - taps;
+    const count = remaining + " " + (remaining === 1 ? "hit" : "hits") + " remaining";
+    sealButton.setAttribute("aria-label", value ? "Tap now! " + count : "Wait for the green glow. " + count);
   }
   function startSealCycle(delay = 750) {
     if (current !== "seal" || locked) return;
@@ -240,21 +242,22 @@
       return;
     }
     clearTimers();
-    setSealReady(false);
     taps += 1;
+    setSealReady(false);
     sound("tap");
     sealProgress.children[taps - 1].classList.add("done");
     sealProgress.setAttribute("aria-label", taps + " of three taps completed");
     sealButton.classList.add("hit");
     later(() => sealButton.classList.remove("hit"), 180);
     if (taps < 3) {
-      sealStatus.textContent = (3 - taps) + " HITS LEFT";
+      sealStatus.textContent = (3 - taps) + (taps === 2 ? " HIT LEFT" : " HITS LEFT");
       if (reducedMotion.matches) setSealReady(true);
       else later(() => startSealCycle(750), 350);
       return;
     }
     locked = true;
     sealButton.disabled = true;
+    sealButton.setAttribute("aria-label", "The seal is broken");
     sealStatus.textContent = "THE SEAL IS BROKEN";
     stopAmbience();
     later(() => {
