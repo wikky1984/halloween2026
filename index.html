@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0712">
+<meta name="description" content="A family-friendly Halloween challenge. No candy. Just a curse.">
+<title>THE CURSED GARAGE</title>
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+<script src="game.js" defer></script>
+</head>
+<body>
+<div class="world" aria-hidden="true"><div class="moon"></div><div class="garage"></div><div class="mist mist-one"></div><div class="mist mist-two"></div></div>
+<div class="app-shell">
+<header class="topbar"><span class="topbar-mark">✦ THE CURSED GARAGE ✦</span><button id="sound-toggle" class="sound-toggle" type="button" aria-pressed="false" aria-label="Turn sound on"><span aria-hidden="true">◖</span><span id="sound-label">SOUND OFF</span></button></header>
+<main id="game" class="game" tabindex="-1">
+<section id="intro" class="screen intro-screen" aria-labelledby="intro-title">
+<div class="crest" aria-hidden="true"><span>✦</span><span>◉</span></div>
+<p class="eyebrow">A 30-SECOND HALLOWEEN CHALLENGE</p>
+<h1 id="intro-title">THE<br><span>CURSED</span><br>GARAGE</h1>
+<p class="tagline">NO CANDY. JUST A CURSE.</p>
+<p class="intro-copy">Something behind the garage door has been waiting for you.</p>
+<button id="enter-button" class="primary-button" type="button">ENTER IF YOU DARE <span aria-hidden="true">→</span></button>
+<p class="small-note">FAMILY-FRIENDLY <span aria-hidden="true">•</span> SOUND OPTIONAL</p>
+</section>
+<section id="choice" class="screen choice-screen" aria-labelledby="choice-title" hidden>
+<p class="step">01 / 03 <span>THE CHOICE</span></p>
+<h2 id="choice-title">Three things are waiting.<br><em>One is calling you.</em></h2>
+<p class="screen-copy">Tap one to reveal what lurks inside.</p>
+<div class="choices">
+<button class="choice-card" type="button" data-choice="coffin"><span class="choice-art" aria-hidden="true">⚰</span><span>THE COFFIN</span><small>Something stirs beneath.</small></button>
+<button class="choice-card" type="button" data-choice="pumpkin"><span class="choice-art" aria-hidden="true">🎃</span><span>THE PUMPKIN</span><small>Its smile knows a secret.</small></button>
+<button class="choice-card" type="button" data-choice="door"><span class="choice-art" aria-hidden="true">🚪</span><span>THE OLD DOOR</span><small>Do you hear the knocking?</small></button>
+</div>
+</section>
+<section id="reveal" class="screen reveal-screen" aria-labelledby="reveal-title" hidden>
+<p class="step">02 / 03 <span>THE AWAKENING</span></p>
+<div id="reveal-art" class="reveal-art" aria-hidden="true"></div>
+<h2 id="reveal-title">It found you.</h2>
+<p id="reveal-copy" class="reveal-copy"></p>
+<p class="wait-copy">Listen closely...</p>
+</section>
+<section id="seal" class="screen seal-screen" aria-labelledby="seal-title" hidden>
+<p class="step">03 / 03 <span>BREAK THE CURSE</span></p>
+<h2 id="seal-title">The seal is glowing.<br><em>Break it before it opens.</em></h2>
+<p class="screen-copy">Tap the seal three times.</p>
+<button id="seal-button" class="seal-button" type="button" aria-label="Tap the glowing seal. Three taps remaining"><span class="seal-ring seal-ring-outer"></span><span class="seal-ring seal-ring-inner"></span><span class="seal-symbol" aria-hidden="true">✳</span></button>
+<div id="seal-progress" class="seal-progress" aria-label="Zero of three taps completed"><span></span><span></span><span></span></div>
+<p id="seal-status" class="seal-status" aria-live="polite">3 taps to escape</p>
+</section>
+<section id="scare" class="screen scare-screen" aria-label="A friendly ghost appears" hidden>
+<div class="ghost-wrap" aria-hidden="true"><svg class="ghost" viewBox="0 0 280 310"><path d="M140 22c-67 0-108 49-108 115v139c0 11 12 16 21 9l22-18 21 19c6 6 15 6 21 0l23-20 23 20c6 6 15 6 21 0l21-19 22 18c9 7 21 2 21-9V137C248 71 207 22 140 22Z" fill="#efffeb" stroke="#b9fac5" stroke-width="7"/><path d="M32 209c40-24 71-24 108-5 37 19 69 18 108-5" fill="none" stroke="#c5ead4" stroke-width="8" opacity=".7"/><ellipse cx="101" cy="136" rx="17" ry="25" fill="#181126"/><ellipse cx="179" cy="136" rx="17" ry="25" fill="#181126"/><ellipse cx="140" cy="193" rx="18" ry="28" fill="#181126"/><circle cx="94" cy="128" r="5" fill="white"/><circle cx="172" cy="128" r="5" fill="white"/></svg></div>
+<h2>BOO!</h2>
+</section>
+<section id="result" class="screen result-screen" aria-labelledby="result-title" hidden>
+<p class="eyebrow">THE CURSE IS BROKEN</p><div class="result-icon" aria-hidden="true">✦</div>
+<h2 id="result-title">YOU<br>SURVIVED!</h2>
+<p class="result-intro">Your spooky title is...</p><p id="result-name" class="result-name"></p>
+<p class="result-copy">The garage may call again. Will you answer?</p>
+<button id="replay-button" class="primary-button" type="button">PLAY AGAIN <span aria-hidden="true">↺</span></button>
+<p class="small-note">HAPPY HALLOWEEN</p>
+</section>
+</main>
+<footer class="footer"><span>✦</span> SCAN IF YOU DARE <span>✦</span></footer>
+</div>
+<noscript><p class="noscript">This game needs JavaScript. Please enable it and reload.</p></noscript>
+</body>
+</html>
