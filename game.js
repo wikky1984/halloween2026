@@ -260,7 +260,7 @@
     missCount.textContent = "MISSES " + misses + " / 3";
   }
   function noteTiming() {
-    return reducedMotion.matches ? { fall: 1500, window: 550 } : { fall: 1900, window: 360 };
+    return reducedMotion.matches ? { fall: 1500, window: 700 } : { fall: 1900, window: 500 };
   }
   function stopRound() {
     roundActive = false;
@@ -268,6 +268,7 @@
     frameId = 0;
     fallingNote.hidden = true;
     sealButton.classList.remove("ready");
+    sealButton.setAttribute("aria-label", "Wait for the next falling symbol");
   }
   function drawNote(now) {
     if (!roundActive || current !== "seal" || locked) return;
@@ -325,12 +326,14 @@
       misses += 1;
       sound("miss");
       sealButton.classList.add("miss");
-      sealStatus.textContent = reason + " — " + (3 - misses) + " CHANCES LEFT";
+      const remaining = 3 - misses;
+      sealStatus.textContent = remaining ? reason + " — " + remaining + (remaining === 1 ? " CHANCE LEFT" : " CHANCES LEFT") : "THREE MISSES — CURSED!";
     }
     scoreText();
     if (taps >= 3 || misses >= 3) {
       locked = true;
       sealButton.disabled = true;
+      sealButton.setAttribute("aria-label", taps >= 3 ? "Three hits. You survived." : "Three misses. The curse wins.");
       later(() => finishGame(taps >= 3), 600);
     } else {
       later(startRound, 550);
