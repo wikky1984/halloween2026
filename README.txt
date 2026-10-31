@@ -1,4 +1,5 @@
 THE CURSED GARAGE
+Live game: https://wikky1984.github.io/halloween2026/
 
 Files
 - index.html: game screens
@@ -6,11 +7,9 @@ Files
 - game.js: game logic and optional synthesized audio
 - icon.svg: favicon
 
-To run locally
-Open index.html in a modern browser. No installation or account is needed.
-
-To publish
-Upload all four files to the root of a static HTTPS host. Keep the file names unchanged. Make the site public, then open the HTTPS URL on an iPhone and an Android phone and play through all three choices. Use the final public URL to generate the QR code and posters. Do not print a QR code until the URL is confirmed.
-
 Operation
-Sound starts only after a visitor taps SOUND ON. There are no external assets, analytics, logins, or personal-data forms. If the page does not load, check that index.html, style.css, game.js, and icon.svg were uploaded together and that the host serves them from the same directory.
+The game is hosted by GitHub Pages from the main branch and repository root. Visitors need no installation, login, or personal information. Sound is optional and begins only after a tap. All artwork, styles, and code are local to the site; there are no external assets or analytics.
+
+If the game does not load, check GitHub Settings > Pages for a successful deployment, then confirm index.html, style.css, game.js, and icon.svg are in the root of main. If audio does not play, tap SOUND ON and check the phone volume. If the QR is difficult to scan outdoors, add steady light to the poster without glare and test from several distances.
+
+Before Halloween, scan the printed QR with an iPhone and an Android phone. Play all three choices, with sound on and off, and check the result and replay buttons.

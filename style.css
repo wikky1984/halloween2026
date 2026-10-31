@@ -22,3 +22,7 @@ h1,h2,p{margin-top:0}h1,h2{font-family:Georgia,'Times New Roman',serif;font-weig
 @media(max-height:680px){.screen{justify-content:flex-start;padding-top:16px}.intro-screen .crest{width:50px;height:50px;margin-bottom:12px}.intro-screen .crest span:first-child{font-size:37px}.intro-screen .crest span:last-child{font-size:20px}.intro-screen h1{font-size:clamp(43px,11vw,67px)}.intro-screen .small-note{margin-top:16px}.step{margin-bottom:15px}.choice-card{min-height:80px}.reveal-art{width:140px;height:140px;font-size:80px;margin:14px auto}.seal-button{width:170px;height:170px}.seal-symbol{font-size:80px}}
 @media(max-width:360px){.topbar-mark{font-size:8px}.choice-card{grid-template-columns:60px 1fr}.choice-art{font-size:38px}.choice-card>span:nth-child(2){font-size:13px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+.screen h1:focus,.screen h2:focus{outline:none}
+.seal-ring-outer:before,.seal-ring-outer:after{content:"";display:block;width:14px;height:14px;border-radius:50%;background:var(--lime);box-shadow:0 0 12px var(--lime);left:calc(50% - 7px)}
+.seal-ring-outer:before{top:-8px}
+.seal-ring-outer:after{bottom:-8px}
