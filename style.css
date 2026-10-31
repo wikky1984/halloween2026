@@ -50,3 +50,28 @@ body.scare-mode .world:before{opacity:.78}
 @keyframes ghost-lunge{0%{opacity:0;transform:scale(.42) translateY(80px)}55%{opacity:1}100%{opacity:1;transform:scale(1) translateY(0)}}
 @media(max-height:680px){.scare-screen{min-height:0}.ghost-wrap{width:min(70vw,270px)}}
 .sound-help{display:inline-block;margin-top:5px;color:#e8d6e4;font-size:9px;letter-spacing:.13em}
+/* Falling-note challenge. The target glows steadily during the hit window. */
+.rhythm-screen .screen-copy{max-width:330px;margin-bottom:14px}
+.rhythm-track{position:relative;width:min(100%,320px);height:270px;overflow:hidden;border:1px solid #9376a16b;border-radius:18px;background:linear-gradient(180deg,#24172fbb,#110b1bcf 70%,#281a34e6);box-shadow:inset 0 0 35px #0008,0 14px 40px #0005}
+.rhythm-guide{position:absolute;top:12px;bottom:12px;left:50%;width:2px;transform:translateX(-50%);background:linear-gradient(180deg,#9973aa22,#b292c655 65%,#b9ff8c55);box-shadow:0 0 12px #b98ecc55}
+.falling-note{--note-y:0px;position:absolute;z-index:2;top:18px;left:50%;width:58px;height:58px;display:grid;place-items:center;transform:translate(-50%,var(--note-y));filter:drop-shadow(0 0 15px #d5b0e8a8);will-change:transform}
+.falling-note[hidden]{display:none}
+.falling-note img{width:58px;height:58px;object-fit:contain}
+.hit-pad{position:absolute;z-index:1;left:50%;bottom:10px;transform:translateX(-50%);width:96px;height:96px;border:3px solid #936ba9;border-radius:50%;background:radial-gradient(circle,#352347,#1b1129 70%);color:#e9cfef;box-shadow:0 0 0 9px #ac75bd16,0 0 22px #986ca45c;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;touch-action:manipulation;transition:border-color .28s,color .28s,box-shadow .28s}
+.hit-pad>span{font-size:48px;line-height:1}
+.hit-pad small{font-size:10px;letter-spacing:.2em;font-weight:900}
+.hit-pad.ready{border-color:var(--lime);color:var(--lime);box-shadow:0 0 0 9px #b6ff6d24,0 0 30px #b6ff6d9b}
+.hit-pad.hit{border-color:#f9df92;color:#f9df92}
+.hit-pad.miss{border-color:var(--orange);color:var(--orange)}
+.rhythm-score{width:min(100%,320px);display:flex;justify-content:space-between;gap:8px;margin-top:16px;font-size:12px;font-weight:900;letter-spacing:.1em;color:var(--lime)}
+.rhythm-score span:last-child{color:var(--orange)}
+.rhythm-screen .seal-status{min-height:32px;margin:11px 0 0}
+.result-art{display:block;width:112px;height:125px;object-fit:contain;filter:drop-shadow(0 0 23px #b8ff8a61);margin:0 auto 12px}
+.result-screen h2{font-size:clamp(39px,10vw,62px);line-height:.96;letter-spacing:-.045em;max-width:480px;margin:0 0 17px;overflow-wrap:normal}
+.result-screen .result-name{min-height:0;margin-bottom:16px}
+body.cursed-ending .result-screen .eyebrow,body.cursed-ending .result-screen h2{color:var(--orange)}
+body.cursed-ending .result-screen h2{text-shadow:0 4px 0 #6e382b,0 0 30px #ff9a4866}
+body.cursed-ending .result-art{filter:drop-shadow(0 0 23px #ff9a4870)}
+@media(max-height:680px){.rhythm-track{height:210px}.rhythm-screen .step{margin-bottom:13px}.rhythm-screen h2{font-size:clamp(26px,7vw,36px)}.rhythm-screen .screen-copy{margin-bottom:10px}.result-art{width:80px;height:90px}.result-screen h2{font-size:clamp(34px,9vw,52px)}}
+@media(max-width:360px){.rhythm-track{height:230px}.rhythm-screen h2{font-size:27px}}
+@media(prefers-reduced-motion:reduce){.falling-note{will-change:auto}}

@@ -7,8 +7,8 @@
 <meta name="description" content="A family-friendly Halloween challenge. No candy. Just a curse.">
 <title>THE CURSED GARAGE</title>
 <link rel="icon" href="icon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="style.css?v=5">
-<script src="game.js?v=5" defer></script>
+<link rel="stylesheet" href="style.css?v=6">
+<script src="game.js?v=6" defer></script>
 </head>
 <body>
 <audio id="bgm" src="haunted-garage.wav" preload="auto" loop playsinline hidden></audio>
@@ -42,23 +42,27 @@
 <p id="reveal-copy" class="reveal-copy"></p>
 <p class="wait-copy">Listen closely...</p>
 </section>
-<section id="seal" class="screen seal-screen" aria-labelledby="seal-title" hidden>
+<section id="seal" class="screen seal-screen rhythm-screen" aria-labelledby="seal-title" hidden>
 <p class="step">03 / 03 <span>BREAK THE CURSE</span></p>
-<h2 id="seal-title">The seal is glowing.<br><em>Break it before it opens.</em></h2>
-<p class="screen-copy">Tap only when the seal glows green. Land three hits.</p>
-<button id="seal-button" class="seal-button" type="button" aria-label="Wait for the green glow. Three hits remaining"><span class="seal-ring seal-ring-outer"></span><span class="seal-ring seal-ring-inner"></span><span class="seal-symbol" aria-hidden="true">✳</span></button>
-<div id="seal-progress" class="seal-progress" aria-label="Zero of three taps completed"><span></span><span></span><span></span></div>
-<p id="seal-status" class="seal-status" aria-live="polite">WAIT FOR THE GREEN GLOW</p>
+<h2 id="seal-title">Catch the falling curse.<br><em>Tap on the beat.</em></h2>
+<p class="screen-copy">Tap the ring when the falling symbol reaches it.</p>
+<div id="rhythm-track" class="rhythm-track">
+  <div class="rhythm-guide" aria-hidden="true"></div>
+  <div id="falling-note" class="falling-note" aria-hidden="true"><img id="note-art" src="pumpkin.svg" width="58" height="58" alt=""></div>
+  <button id="seal-button" class="hit-pad" type="button" aria-label="Tap when the falling symbol reaches this ring"><span aria-hidden="true">✳</span><small>TAP</small></button>
+</div>
+<div class="rhythm-score"><span id="hit-count">HITS 0 / 3</span><span id="miss-count">MISSES 0 / 3</span></div>
+<p id="seal-status" class="seal-status" aria-live="polite">GET READY...</p>
 </section>
 <section id="scare" class="screen scare-screen" aria-label="A ghost rushes toward you" hidden>
 <div class="ghost-wrap" aria-hidden="true"><img class="ghost" src="ghost.svg?v=3" width="280" height="310" alt=""></div>
-<h2>BOO!</h2>
+<h2 id="scare-word">BOO!</h2>
 </section>
 <section id="result" class="screen result-screen" aria-labelledby="result-title" hidden>
-<p class="eyebrow">THE CURSE IS BROKEN</p><div class="result-icon" aria-hidden="true">✦</div>
-<h2 id="result-title">YOU<br>SURVIVED!</h2>
-<p class="result-intro">Your spooky title is...</p><p id="result-name" class="result-name"></p>
-<p class="result-copy">The garage may call again. Will you answer?</p>
+<p id="result-eyebrow" class="eyebrow">YOU SURVIVED!</p><img id="result-art" class="result-art" src="pumpkin.svg" width="118" height="132" alt="">
+<h2 id="result-title">THE CURSE IS BROKEN.</h2>
+<p id="result-intro" class="result-intro">Your spooky title is...</p><p id="result-name" class="result-name"></p>
+<p id="result-copy" class="result-copy">The garage may call again. Will you answer?</p>
 <button id="replay-button" class="primary-button" type="button">PLAY AGAIN <span aria-hidden="true">↺</span></button>
 <p class="small-note">HAPPY HALLOWEEN</p>
 </section>
