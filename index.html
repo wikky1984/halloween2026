@@ -7,8 +7,8 @@
 <meta name="description" content="A family-friendly Halloween challenge. No candy. Just a curse.">
 <title>THE CURSED GARAGE</title>
 <link rel="icon" href="icon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="style.css?v=2">
-<script src="game.js" defer></script>
+<link rel="stylesheet" href="style.css?v=3">
+<script src="game.js?v=2" defer></script>
 </head>
 <body>
 <div class="world" aria-hidden="true"><div class="moon"></div><div class="garage"></div><div class="mist mist-one"></div><div class="mist mist-two"></div></div>
@@ -29,9 +29,9 @@
 <h2 id="choice-title">Three things are waiting.<br><em>One is calling you.</em></h2>
 <p class="screen-copy">Tap one to reveal what lurks inside.</p>
 <div class="choices">
-<button class="choice-card" type="button" data-choice="coffin"><span class="choice-art" aria-hidden="true">⚰</span><span>THE COFFIN</span><small>Something stirs beneath.</small></button>
-<button class="choice-card" type="button" data-choice="pumpkin"><span class="choice-art" aria-hidden="true">🎃</span><span>THE PUMPKIN</span><small>Its smile knows a secret.</small></button>
-<button class="choice-card" type="button" data-choice="door"><span class="choice-art" aria-hidden="true">🚪</span><span>THE OLD DOOR</span><small>Do you hear the knocking?</small></button>
+<button class="choice-card" type="button" data-choice="coffin"><img class="choice-art" src="coffin.svg" width="64" height="70" alt="" aria-hidden="true"><span>THE COFFIN</span><small>Something stirs beneath.</small></button>
+<button class="choice-card" type="button" data-choice="pumpkin"><img class="choice-art" src="pumpkin.svg" width="64" height="70" alt="" aria-hidden="true"><span>THE PUMPKIN</span><small>Its smile knows a secret.</small></button>
+<button class="choice-card" type="button" data-choice="door"><img class="choice-art" src="door.svg" width="64" height="70" alt="" aria-hidden="true"><span>THE OLD DOOR</span><small>Do you hear the knocking?</small></button>
 </div>
 </section>
 <section id="reveal" class="screen reveal-screen" aria-labelledby="reveal-title" hidden>
@@ -50,7 +50,7 @@
 <p id="seal-status" class="seal-status" aria-live="polite">3 taps to escape</p>
 </section>
 <section id="scare" class="screen scare-screen" aria-label="A friendly ghost appears" hidden>
-<div class="ghost-wrap" aria-hidden="true"><svg class="ghost" viewBox="0 0 280 310"><path d="M140 22c-67 0-108 49-108 115v139c0 11 12 16 21 9l22-18 21 19c6 6 15 6 21 0l23-20 23 20c6 6 15 6 21 0l21-19 22 18c9 7 21 2 21-9V137C248 71 207 22 140 22Z" fill="#efffeb" stroke="#b9fac5" stroke-width="7"/><path d="M32 209c40-24 71-24 108-5 37 19 69 18 108-5" fill="none" stroke="#c5ead4" stroke-width="8" opacity=".7"/><ellipse cx="101" cy="136" rx="17" ry="25" fill="#181126"/><ellipse cx="179" cy="136" rx="17" ry="25" fill="#181126"/><ellipse cx="140" cy="193" rx="18" ry="28" fill="#181126"/><circle cx="94" cy="128" r="5" fill="white"/><circle cx="172" cy="128" r="5" fill="white"/></svg></div>
+<div class="ghost-wrap" aria-hidden="true"><img class="ghost" src="ghost.svg" width="280" height="310" alt=""></div>
 <h2>BOO!</h2>
 </section>
 <section id="result" class="screen result-screen" aria-labelledby="result-title" hidden>
@@ -67,4 +67,5 @@
 <noscript><p class="noscript">This game needs JavaScript. Please enable it and reload.</p></noscript>
 </body>
 </html>
+
 

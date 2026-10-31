@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none">
+<defs><linearGradient id="door" x1="65" y1="25" x2="188" y2="229" gradientUnits="userSpaceOnUse"><stop stop-color="#694458"/><stop offset=".5" stop-color="#392435"/><stop offset="1" stop-color="#211825"/></linearGradient><linearGradient id="crack" x1="128" y1="30" x2="128" y2="230" gradientUnits="userSpaceOnUse"><stop stop-color="#E6FFAA"/><stop offset="1" stop-color="#70B967"/></linearGradient><filter id="glow" x="-100%" y="-50%" width="300%" height="200%"><feGaussianBlur stdDeviation="6"/></filter></defs>
+<path d="M39 242V77C39 36 75 12 128 12s89 24 89 65v165Z" fill="#2D2130" stroke="#8C6772" stroke-width="8"/>
+<path d="M54 242V77c0-31 27-51 74-51s74 20 74 51v165Z" fill="#100D1C" stroke="#BF8B62" stroke-width="5"/>
+<path d="M65 236V79c0-26 24-42 63-42v199Z" fill="url(#door)" stroke="#9B6B60" stroke-width="4"/>
+<path d="M128 37c39 0 63 16 63 42v157h-63Z" fill="#291D2A" stroke="#9B6B60" stroke-width="4"/>
+<path d="M72 93h49v59H72Zm0 69h49v65H72Zm63-69h49v59h-49Zm0 69h49v65h-49Z" stroke="#A57870" stroke-width="3"/>
+<path d="M128 41v194" stroke="url(#crack)" stroke-width="9" filter="url(#glow)"/>
+<path d="M128 41v194" stroke="url(#crack)" stroke-width="3"/>
+<circle cx="166" cy="163" r="10" fill="#E7B96D" stroke="#614437" stroke-width="3"/>
+<circle cx="166" cy="163" r="3" fill="#6D453A"/>
+<path d="M45 244h166" stroke="#F9B76B" stroke-width="6" stroke-linecap="round"/>
+</svg>

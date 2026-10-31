@@ -9,9 +9,9 @@
   const sealProgress = document.getElementById("seal-progress");
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   const scenes = {
-    coffin: { art: "⚰", title: "The coffin opened.", copy: "A heartbeat echoes from the darkness. It isn't yours." },
-    pumpkin: { art: "🎃", title: "The lantern grinned.", copy: "Its grin grows wider. A little voice whispers your name." },
-    door: { art: "🚪", title: "The old door knocked.", copy: "Three slow knocks answer from the other side." }
+    coffin: { art: "coffin.svg", title: "The coffin opened.", copy: "A heartbeat echoes from the darkness. It isn't yours." },
+    pumpkin: { art: "pumpkin.svg", title: "The lantern grinned.", copy: "Its grin grows wider. A little voice whispers your name." },
+    door: { art: "door.svg", title: "The old door knocked.", copy: "Three slow knocks answer from the other side." }
   };
   const titles = ["THE BRAVE NIGHT WANDERER", "THE GHOST'S FAVORITE GUEST", "THE MIDNIGHT HERO", "THE CURSE BREAKER", "THE FEARLESS PHANTOM", "THE GARAGE ESCAPIST"];
   let current = "intro";
@@ -101,7 +101,11 @@
       const scene = scenes[choice];
       if (!scene) return;
       clearTimers();
-      document.getElementById("reveal-art").textContent = scene.art;
+      const art = document.getElementById("reveal-art");
+      const image = new Image();
+      image.src = scene.art;
+      image.alt = "";
+      art.replaceChildren(image);
       document.getElementById("reveal-title").textContent = scene.title;
       document.getElementById("reveal-copy").textContent = scene.copy;
       show("reveal");
@@ -158,3 +162,4 @@
   resetSeal();
   show("intro");
 })();
+

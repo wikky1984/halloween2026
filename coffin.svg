@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none">
+<defs><linearGradient id="wood" x1="54" y1="20" x2="207" y2="239" gradientUnits="userSpaceOnUse"><stop stop-color="#52304E"/><stop offset=".56" stop-color="#2B1A31"/><stop offset="1" stop-color="#130D20"/></linearGradient><linearGradient id="slit" x1="128" y1="73" x2="128" y2="210" gradientUnits="userSpaceOnUse"><stop stop-color="#E1FF9B"/><stop offset="1" stop-color="#68B95C"/></linearGradient><filter id="glow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="7"/></filter></defs>
+<path d="M72 25 128 8l56 17 23 54-13 145-66 24-66-24L49 79Z" fill="#090913" opacity=".46"/>
+<path d="M73 20 128 7l55 13 21 56-14 145-62 25-62-25L52 76Z" fill="url(#wood)" stroke="#FFB369" stroke-width="6" stroke-linejoin="round"/>
+<path d="M84 31 128 20l44 11 18 48-13 132-49 20-49-20L66 79Z" stroke="#9D6786" stroke-width="3" stroke-linejoin="round"/>
+<path d="M128 22v207M68 80h120M79 208l98 0" stroke="#704663" stroke-width="3"/>
+<path d="M128 53v140" stroke="url(#slit)" stroke-width="7" stroke-linecap="round" filter="url(#glow)"/>
+<path d="M128 53v140" stroke="url(#slit)" stroke-width="3" stroke-linecap="round"/>
+<path d="M105 95h46M128 73v83" stroke="#E9C58E" stroke-width="8" stroke-linecap="round"/>
+<path d="M105 95h46M128 73v83" stroke="#784F50" stroke-width="3" stroke-linecap="round"/>
+<circle cx="79" cy="78" r="4" fill="#F9C979"/><circle cx="177" cy="78" r="4" fill="#F9C979"/><circle cx="90" cy="204" r="4" fill="#F9C979"/><circle cx="166" cy="204" r="4" fill="#F9C979"/>
+</svg>
